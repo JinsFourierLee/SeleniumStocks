@@ -11,7 +11,9 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from time import sleep
 
-search_INPUT = 'Apple'
+## ****************here you can put the name of company
+search_INPUT = 'nicola'
+##**************************
 filename_INPUT = search_INPUT+'.txt'
 
 options = webdriver.ChromeOptions()
@@ -52,21 +54,29 @@ driver.implicitly_wait(2)
 
 WhileFlag = True
 WhilePivot = 5000
-
+EmergencyStopCount = 200
+##--my logic-- not working well..
 while WhileFlag:
     driver.execute_script("window.scrollTo(0,"+str(WhilePivot)+")")
     driver.implicitly_wait(1)
+
     try:
         WhileFlagDriver=driver.find_element_by_xpath('//*[@id="Col1-1-HistoricalDataTable-Proxy"]/section/div[2]/table/tbody/tr['+WhilePivot+']/td[1]')
         WhileFlag = False
         print('Scroll End')
     except: 
         WhileFlag = True
+        if EmergencyStopCount == 0 :
+            break
         WhilePivot = WhilePivot + 5000
-        print('keep scrolling...')
+        print('keep scrolling...countdown:'+str(EmergencyStopCount))
+        EmergencyStopCount = EmergencyStopCount-1
+        
+##--my logic;--
+#        
 
-## Get scroll height 
-# SCROLL_PAUSE_TIME = 0.5
+# Get scroll height 
+#SCROLL_PAUSE_TIME = 0.5
 #last_height = driver.execute_script("return document.body.scrollHeight")
 #
 #while True:
